@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "npm --prefix client run dev"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.18.4"
+  }
+}

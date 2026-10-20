@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "School Fall Fest",
+    "date": "Oct 28",
+    "capacity": 200
+  },
+  {
+    "id": 2,
+    "title": "Coding Contest",
+    "date": "Nov 5",
+    "capacity": 50
+  },
+  {
+    "id": 3,
+    "title": "Saturday Tutoring",
+    "date": "Nov 12",
+    "capacity": 30
+  }
+]

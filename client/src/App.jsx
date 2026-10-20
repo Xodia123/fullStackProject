@@ -1,121 +1,137 @@
 import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { Link, Route, Routes } from 'react-router-dom'
+import EventCard from './EventCard.jsx'
+import events from './events.json'
 import './App.css'
 
-function App() {
+function Greeting({ name }) {
+  return <p className="example-result">Hello, {name}!</p>
+}
+
+function GreetingExample() {
+  return (
+    <article className="example-card">
+      <h2>Passing a prop</h2>
+      <p>The parent passes <code>name="Ada"</code> to the child as a prop.</p>
+      <Greeting name="Ada" />
+    </article>
+  )
+}
+
+function CounterExample() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <article className="example-card">
+      <h2>Local state and re-renders</h2>
+      <p>Count: <span className="counter">{count}</span></p>
+      <button
+        className="counter-button"
+        type="button"
+        onClick={() => setCount((currentCount) => currentCount + 1)}
+      >
+        Increment
+      </button>
+      <p className="example-explanation">
+        Clicking queues a state update, so React renders this counter again with the new count.
+        The state belongs to this component, so the click does not itself update the App component.
+        A parent render can also render this component; in development, Strict Mode may invoke
+        render an extra time to help find impure code.
+      </p>
+    </article>
+  )
+}
 
-      <div className="ticks"></div>
+function App() {
+  const [rsvps, setRsvps] = useState([])
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+  function addRsvp(event) {
+    setRsvps((currentRsvps) =>
+      currentRsvps.some((rsvp) => rsvp.id === event.id)
+        ? currentRsvps
+        : [...currentRsvps, event],
+    )
+  }
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+  function removeRsvp(eventId) {
+    setRsvps((currentRsvps) => currentRsvps.filter((event) => event.id !== eventId))
+  }
+
+  return (
+    <div className="app">
+      <header className="site-header">
+        <nav className="site-nav" aria-label="Main navigation">
+          <Link className="nav-link" to="/">
+            Home
+          </Link>
+          <Link className="nav-link" to="/rsvps">
+            My RSVPs
+          </Link>
+        </nav>
+      </header>
+
+      <main className="page-content">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <section>
+                <h1>Home</h1>
+                <p className="page-intro">Find something happening on campus and save your spot.</p>
+                <div className="event-grid">
+                  {events.map((event) => (
+                    <EventCard
+                      key={event.id}
+                      event={{
+                        ...event,
+                        isRsvped: rsvps.some((rsvp) => rsvp.id === event.id),
+                      }}
+                      onRsvp={addRsvp}
+                      onRemoveRsvp={removeRsvp}
+                    />
+                  ))}
+                </div>
+                <section className="learning-examples" aria-label="React examples">
+                  <GreetingExample />
+                  <CounterExample />
+                </section>
+              </section>
+            }
+          />
+          <Route
+            path="/rsvps"
+            element={
+              <section>
+                <h1>My RSVPs</h1>
+                {rsvps.length > 0 ? (
+                  <div className="event-grid">
+                    {rsvps.map((event) => (
+                      <EventCard
+                        key={event.id}
+                        event={{ ...event, isRsvped: true }}
+                        onRsvp={addRsvp}
+                        onRemoveRsvp={removeRsvp}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="empty-state">You haven’t RSVP’d to any events yet. Browse Home to find one.</p>
+                )}
+              </section>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <section>
+                <h1>Page not found</h1>
+                <p className="page-intro">That page doesn’t exist.</p>
+              </section>
+            }
+          />
+        </Routes>
+      </main>
+    </div>
   )
 }
 
