@@ -4,44 +4,6 @@ import EventCard from './EventCard.jsx'
 import events from './events.json'
 import './App.css'
 
-function Greeting({ name }) {
-  return <p className="example-result">Hello, {name}!</p>
-}
-
-function GreetingExample() {
-  return (
-    <article className="example-card">
-      <h2>Passing a prop</h2>
-      <p>The parent passes <code>name="Ada"</code> to the child as a prop.</p>
-      <Greeting name="Ada" />
-    </article>
-  )
-}
-
-function CounterExample() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <article className="example-card">
-      <h2>Local state and re-renders</h2>
-      <p>Count: <span className="counter">{count}</span></p>
-      <button
-        className="counter-button"
-        type="button"
-        onClick={() => setCount((currentCount) => currentCount + 1)}
-      >
-        Increment
-      </button>
-      <p className="example-explanation">
-        Clicking queues a state update, so React renders this counter again with the new count.
-        The state belongs to this component, so the click does not itself update the App component.
-        A parent render can also render this component; in development, Strict Mode may invoke
-        render an extra time to help find impure code.
-      </p>
-    </article>
-  )
-}
-
 function App() {
   const [rsvps, setRsvps] = useState([])
 
@@ -91,10 +53,6 @@ function App() {
                     />
                   ))}
                 </div>
-                <section className="learning-examples" aria-label="React examples">
-                  <GreetingExample />
-                  <CounterExample />
-                </section>
               </section>
             }
           />

@@ -14,7 +14,7 @@ Entry 2:
     addRsvp appends an event using [...currentRsvps, event], and removeRsvp filters it out—neither mutates the array. Duplicate RSVPs are prevented.
     EventCard.jsx calls the add handler for an un-RSVP’d event and the remove handler when it’s already saved. The /rsvps route renders the RSVP cards or an empty-state message at App.jsx line 118
 
-    Fix: the checked-in events.json uses title and capacity rather than the example’s name and spots, so the cards retain the fields used by the current data.
+    Fix: The checked-in events.json uses title and capacity rather than the example’s name and spots, so the cards retain the fields used by the current data.
 
     Verify: Your current implementation already uses the correct fields: the .map() in App.jsx passes each event to EventCard, and EventCard.jsx renders event.title and event.capacity. No edits were needed. Lint passes with no unused-import or unused-variable errors.
 
