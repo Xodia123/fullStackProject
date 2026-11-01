@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "dev": "npm --prefix client run dev"
+    "dev": "concurrently --kill-others-on-fail --names api,client \"npm --prefix server run dev\" \"npm --prefix client run dev\""
   },
   "dependencies": {
     "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   }
 }

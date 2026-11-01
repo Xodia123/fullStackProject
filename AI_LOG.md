@@ -8,13 +8,29 @@ Entry 1:
 
 Entry 2: 
 
-    Asked: I am working on my Vite React app. Can you walk me through setting up React Router with BrowserRouter, Routes, and Route for a Home page (/) and a My RSVPs page (/rsvps)? I need a navigation bar with <Link> tags. Also, can you build a small example of passing a prop from a parent to a child component, and create a tiny useState counter button that explains exactly when the component re-renders?
+    Ask: I asked for help setting up React Router for a Home (/) and My RSVPs (/rsvps) page with a <Link> navigation bar. I also needed an example of passing props to a child component and a useState counter to understand when components re-render.
 
-    Get: Implemented RSVP handling with state lifted to App: App.jsx stores the RSVP event objects in useState([]). The Home page renders cards with events.map() at line 82.
-    addRsvp appends an event using [...currentRsvps, event], and removeRsvp filters it out—neither mutates the array. Duplicate RSVPs are prevented.
-    EventCard.jsx calls the add handler for an un-RSVP’d event and the remove handler when it’s already saved. The /rsvps route renders the RSVP cards or an empty-state message at App.jsx line 118
+    Get: The AI managed RSVP state in App.jsx using useState([]). The Home page renders event cards via .map(). I added addRsvp and removeRsvp functions to safely update the list without duplicates. EventCard.jsx handles the add/remove clicks, and the /rsvps route displays my saved events.
 
-    Fix: The checked-in events.json uses title and capacity rather than the example’s name and spots, so the cards retain the fields used by the current data.
+    Fix: I updated the code to use title and capacity to perfectly match the data in my events.json file.
 
-    Verify: Your current implementation already uses the correct fields: the .map() in App.jsx passes each event to EventCard, and EventCard.jsx renders event.title and event.capacity. No edits were needed. Lint passes with no unused-import or unused-variable errors.
+    Verify: I confirmed the app correctly maps and renders event.title and event.capacity, and passes all linting checks with no errors.
 
+
+Entry 3: 
+
+        Asked: Create a Node.js Express server inside the server directory with stubbed API routes for GET /api/events and POST /api/rsvps. Configure a SQLite database connection and initialize an events table with id, title, date, and capacity columns.
+
+        Got: Implemented the Express server in server/app.js and server/index.js with the requested stubbed endpoints. It also added a SQLite connection and table initialization in server/db.js, plus start scripts and the better-sqlite3 dependency in server/package.json
+
+        Verify: Confirmed that API and schema smoke checks passed successfully, along with syntax and changed-file whitespace checks.
+
+Entry 4:
+
+        Asked: Create a new SQLite table named rsvps and a custom POST /api/rsvps Express endpoint. Update the React frontend to fetch events via GET /api/events on load, and modify the RSVP button to write to the API instead of local state.
+
+        Got: Copilot updated the backend database initialization to include the rsvps table and added the POST route to handle incoming data. On the frontend, it added a useEffect hook in App.jsx to fetch events and rewrote the RSVP click handler to send a POST request.
+
+        Fix: When I launched the app it produced an error: "Unable to load events and RSVPs." and When I type my name it it autmoatically rsvps for all events fix
+
+        Verify: Clicked the "RSVP" button on the UI and confirmed a successful 200 OK POST request in the browser's Network tab. Refreshed the page to verify that the UI pulls the saved data directly from the API, confirming full front-to-back wiring and data persistence.

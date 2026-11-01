@@ -1,0 +1,3 @@
+server/events.sqlite
+node_modules/
+server/node_modules/
